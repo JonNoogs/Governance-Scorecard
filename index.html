@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-<style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <style>
   :root{
     --navy:#1A3A52; --teal:#15706B; --copper:#B08D57;
     --offwhite:#F5F3EF; --white:#FFFFFF;
@@ -132,7 +133,7 @@
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
   .consent{display:flex; gap:11px; align-items:flex-start; margin:6px 0 20px; font-size:13px; color:var(--body); line-height:1.5}
   .consent input{margin-top:3px; flex:none; width:16px; height:16px; accent-color:var(--teal)}
-  .cf-turnstile{margin-bottom:18px}
+  .cf-{margin-bottom:18px}
   .gate-error{color:#9d3b2f; font-size:13.5px; margin-bottom:14px; display:none}
 
   /* ---------- detail ---------- */
@@ -189,12 +190,12 @@
 <script>
 /* =====================================================================
    CONFIG — wired up in Phase 6 (hosting). Safe defaults let the page
-   run and be tested standalone before the function/Turnstile exist.
+   run and be tested standalone before the function/ exist.
    ===================================================================== */
 const CONFIG = {
   SUBMIT_URL: "/api/submit",        // Cloudflare Pages Function (Phase 5)
   CONFIG_URL: "/api/config",        // optional: live scoring weights (Phase 5)
-  TURNSTILE_SITE_KEY: "",           // set in Phase 6; empty = skip bot-check (preview mode)
+  TURNSTILE_SITE_KEY: "0x4AAAAAADu1R5i-Gidbl64B",           // set in Phase 6; empty = skip bot-check (preview mode)
   START_CONVERSATION_URL: "https://deltaip.com.au/contact"
 };
 
