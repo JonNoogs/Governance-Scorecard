@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-  <style>
+<style>
   :root{
     --navy:#1A3A52; --teal:#15706B; --copper:#B08D57;
     --offwhite:#F5F3EF; --white:#FFFFFF;
@@ -133,7 +133,7 @@
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
   .consent{display:flex; gap:11px; align-items:flex-start; margin:6px 0 20px; font-size:13px; color:var(--body); line-height:1.5}
   .consent input{margin-top:3px; flex:none; width:16px; height:16px; accent-color:var(--teal)}
-  .cf-{margin-bottom:18px}
+  .cf-turnstile{margin-bottom:18px}
   .gate-error{color:#9d3b2f; font-size:13.5px; margin-bottom:14px; display:none}
 
   /* ---------- detail ---------- */
@@ -189,13 +189,14 @@
 
 <script>
 /* =====================================================================
-   CONFIG — wired up in Phase 6 (hosting). Safe defaults let the page
-   run and be tested standalone before the function/ exist.
+   CONFIG — the only values that change per environment.
+   API URLs are relative on purpose: they work on the .pages.dev domain
+   now AND on scorecard.deltaip.com.au later, with no code change.
    ===================================================================== */
 const CONFIG = {
-  SUBMIT_URL: "/api/submit",        // Cloudflare Pages Function (Phase 5)
-  CONFIG_URL: "/api/config",        // optional: live scoring weights (Phase 5)
-  TURNSTILE_SITE_KEY: "0x4AAAAAADu1R5i-Gidbl64B",           // set in Phase 6; empty = skip bot-check (preview mode)
+  SUBMIT_URL: "/api/submit",        // Cloudflare Pages Function
+  CONFIG_URL: "/api/config",        // live scoring weights (optional)
+  TURNSTILE_SITE_KEY: "0x4AAAAAADu1R5i-Gidbl64B",   // public site key; empty = skip bot-check
   START_CONVERSATION_URL: "https://deltaip.com.au/contact"
 };
 
@@ -505,7 +506,7 @@ function renderResult(){
         </div>
         <label class="consent"><input type="checkbox" id="f_consent"/>
           <span>I agree that Delta Investment Partners may use these details to send my result and contact me about it, and may use my responses in de-identified, aggregated form to benchmark investment governance across the industry.</span></label>
-        ${CONFIG.TURNSTILE_SITE_KEY?`<div class="cf-turnstile" data-sitekey="${CONFIG.TURNSTILE_SITE_KEY}"></div>`:""}
+        ${CONFIG.TURNSTILE_SITE_KEY?`<div class="cf-turnstile"></div>`:""}
         <div class="gate-error" id="gateErr"></div>
         <button class="btn btn-primary" id="unlock">Unlock my full result <span class="arrow">&rarr;</span></button>
       </div>
@@ -513,6 +514,15 @@ function renderResult(){
     </div></div>`;
     document.getElementById("back").onclick=()=>{stepIndex=7; render();};
     document.getElementById("unlock").onclick=submitGate;
+    // Explicitly render Turnstile once the gate exists, waiting for the
+    // async script if needed. Avoids the auto-scan race that leaves the
+    // widget missing when the page renders its content via JavaScript.
+    if(CONFIG.TURNSTILE_SITE_KEY){
+      const holder=app.querySelector(".cf-turnstile");
+      const renderWidget=()=>{ if(window.turnstile && holder && !holder.dataset.rendered){ holder.dataset.rendered="1"; window.turnstile.render(holder,{sitekey:CONFIG.TURNSTILE_SITE_KEY}); } };
+      if(window.turnstile){ renderWidget(); }
+      else { const t=setInterval(()=>{ if(window.turnstile){ clearInterval(t); renderWidget(); } },200); setTimeout(()=>clearInterval(t),15000); }
+    }
   } else {
     // detail
     const ranked=[...DIMENSIONS].sort((a,b)=>dimScore(a)-dimScore(b));
@@ -577,9 +587,11 @@ async function submitGate(){
   // Best-effort store; the page still renders the result if the function isn't wired yet.
   try{
     if(CONFIG.TURNSTILE_SITE_KEY){
-      await fetch(CONFIG.SUBMIT_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+      const r=await fetch(CONFIG.SUBMIT_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+      // If the server rejects (e.g. failed verification), surface it rather than silently proceeding.
+      if(!r.ok){ let m="We couldn't verify your submission. Please try again."; try{const j=await r.json(); if(j&&j.error) m=j.error;}catch(e){} err.textContent=m; err.style.display="block"; btn.disabled=false; btn.innerHTML='Unlock my full result <span class="arrow">&rarr;</span>'; if(window.turnstile){try{window.turnstile.reset();}catch(e){}} return; }
     }
-  }catch(e){/* preview mode / offline: proceed to show result */}
+  }catch(e){/* network/preview: proceed to show result rather than block the user */}
 
   resultPhase="detail"; render();
 }
