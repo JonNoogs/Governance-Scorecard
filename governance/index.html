@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Investment Governance Scorecard · Delta Investment Partners</title>
+<meta name="description" content="An eight-dimension diagnostic of investment governance maturity for AFSL holders and advice licensees, benchmarked against institutional-grade practice." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+  :root{
+    --navy:#1A3A52; --teal:#15706B; --copper:#B08D57;
+    --offwhite:#F5F3EF; --white:#FFFFFF;
+    --ink:#1A3A52; --body:#41505b; --muted:#7c8791;
+    --line:#e4ddd2; --line-strong:#d3cabb;
+    --band-foundational:#9aa7ae;
+    --band-developing:#6fa9a2;
+    --band-robust:#15706B;
+    --band-institutional:#B08D57;
+    --serif:"PT Serif",Georgia,serif;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --maxw:760px;
+    --ease:cubic-bezier(.4,.0,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--sans); color:var(--body); background:var(--offwhite);
+    line-height:1.6; font-size:17px; -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  h1,h2,h3{font-family:var(--serif); color:var(--ink); font-weight:700; line-height:1.2}
+  .eyebrow{
+    font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--teal);
+  }
+  .eyebrow.on-navy{color:var(--copper)}
+  a{color:var(--teal)}
+
+  /* ---------- top bar ---------- */
+  .topbar{border-bottom:1px solid var(--line); background:var(--offwhite)}
+  .topbar .wrap{display:flex; align-items:center; gap:12px; height:64px}
+  .mark{width:20px;height:18px;display:inline-block}
+  .brand{font-family:var(--serif); font-weight:700; color:var(--ink); font-size:16px; letter-spacing:.01em}
+  .brand span{color:var(--muted); font-family:var(--sans); font-weight:500; font-size:13px; letter-spacing:.02em}
+
+  /* ---------- progress ---------- */
+  .progress{padding-top:28px}
+  .progress-meta{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px}
+  .progress-meta .step{font-size:12.5px; font-weight:600; letter-spacing:.04em; color:var(--muted); text-transform:uppercase}
+  .progress-track{height:2px; background:var(--line-strong); border-radius:2px; overflow:hidden}
+  .progress-fill{height:100%; background:var(--teal); width:0; transition:width .5s var(--ease)}
+
+  /* ---------- panels ---------- */
+  .screen{padding:44px 0 72px; animation:rise .45s var(--ease) both}
+  @keyframes rise{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .screen{animation:none}
+    .progress-fill{transition:none}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--navy); color:#dfe7ec}
+  .hero .wrap{padding-top:72px; padding-bottom:76px}
+  .hero h1{color:var(--white); font-size:38px; margin:18px 0 18px; max-width:16ch}
+  .hero p.lede{font-size:18px; color:#c3d0d9; max-width:52ch; margin-bottom:32px}
+  .facts{display:flex; gap:28px; flex-wrap:wrap; margin-bottom:38px; border-top:1px solid rgba(255,255,255,.14); padding-top:24px}
+  .fact{min-width:120px}
+  .fact .n{font-family:var(--serif); font-size:26px; color:var(--copper); line-height:1}
+  .fact .l{font-size:13px; color:#9fb1bd; margin-top:6px}
+  .hero .note{font-size:13.5px; color:#8fa0ac; margin-top:18px; max-width:52ch}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:var(--sans); font-size:15px; font-weight:600; letter-spacing:.01em;
+    border:none; border-radius:2px; padding:14px 26px; cursor:pointer;
+    transition:background .2s var(--ease), color .2s var(--ease), border-color .2s;
+    display:inline-flex; align-items:center; gap:10px; text-decoration:none;
+  }
+  .btn-primary{background:var(--teal); color:#fff}
+  .btn-primary:hover{background:#0f5b57}
+  .btn-primary:disabled{background:#b7c3c1; cursor:not-allowed}
+  .btn-ghost{background:transparent; color:var(--body); padding:14px 8px}
+  .btn-ghost:hover{color:var(--ink)}
+  .btn-on-navy{background:var(--copper); color:#241a0e}
+  .btn-on-navy:hover{background:#c69c62}
+  .btn .arrow{font-size:17px; line-height:1}
+
+  .nav-row{display:flex; justify-content:space-between; align-items:center; margin-top:38px}
+
+  /* ---------- questions ---------- */
+  .dim-title{font-size:29px; margin:10px 0 6px}
+  .qblock{margin-bottom:38px}
+  .qprompt{font-family:var(--serif); font-size:19px; color:var(--ink); font-weight:700; margin-bottom:16px; line-height:1.35}
+  .options{display:flex; flex-direction:column; gap:10px}
+  .opt{position:relative}
+  .opt input{position:absolute; opacity:0; width:1px; height:1px}
+  .opt label{
+    display:block; cursor:pointer; background:var(--white);
+    border:1px solid var(--line-strong); border-left:3px solid var(--line-strong);
+    border-radius:2px; padding:14px 18px 15px; transition:border-color .18s var(--ease), background .18s, box-shadow .18s;
+  }
+  .opt label:hover{border-color:var(--teal); border-left-color:var(--teal)}
+  .opt .band-tag{font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+  .opt .band-desc{font-size:15px; color:var(--body); line-height:1.5}
+  .opt input:checked + label{border-color:var(--teal); border-left-color:var(--teal); border-left-width:3px; background:#fbfaf7; box-shadow:0 1px 0 rgba(21,112,107,.08)}
+  .opt input:checked + label .band-tag{color:var(--teal)}
+  .opt input:focus-visible + label{outline:2px solid var(--navy); outline-offset:2px}
+
+  /* ---------- result ---------- */
+  .result-band{font-size:40px; margin:8px 0 6px}
+  .result-line{font-size:18px; color:var(--body); max-width:48ch; margin-bottom:8px}
+  .radar-holder{display:flex; justify-content:center; margin:22px 0 8px}
+  .radar-legend{display:flex; gap:20px; justify-content:center; font-size:12.5px; color:var(--muted); margin-bottom:10px; flex-wrap:wrap}
+  .radar-legend .k{display:inline-flex; align-items:center; gap:7px}
+  .swatch{width:11px;height:11px;border-radius:2px;display:inline-block}
+
+  /* ---------- gate ---------- */
+  .gate{background:var(--white); border:1px solid var(--line-strong); border-radius:3px; padding:30px 28px; margin-top:26px}
+  .gate h3{font-size:20px; margin-bottom:6px}
+  .gate .gate-sub{font-size:14.5px; color:var(--muted); margin-bottom:22px; max-width:48ch}
+  .field{margin-bottom:16px}
+  .field label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px; letter-spacing:.01em}
+  .field input,.field select{
+    width:100%; font-family:var(--sans); font-size:15px; color:var(--ink);
+    padding:11px 13px; border:1px solid var(--line-strong); border-radius:2px; background:#fdfcfa;
+  }
+  .field input:focus,.field select:focus{outline:2px solid var(--teal); outline-offset:0; border-color:var(--teal)}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .consent{display:flex; gap:11px; align-items:flex-start; margin:6px 0 20px; font-size:12.5px; color:var(--body); line-height:1.5}
+  .consent input{margin-top:3px; flex:none; width:16px; height:16px; accent-color:var(--teal)}
+  .cf-turnstile{margin-bottom:18px}
+  .gate-error{color:#9d3b2f; font-size:13.5px; margin-bottom:14px; display:none}
+
+  /* ---------- detail ---------- */
+  .detail-intro{font-size:17px; color:var(--body); max-width:54ch; margin-bottom:34px; padding-bottom:28px; border-bottom:1px solid var(--line)}
+  .dimrow{padding:20px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:1fr auto; gap:8px 20px; align-items:start}
+  .dimrow .dname{font-family:var(--serif); font-weight:700; color:var(--ink); font-size:17px}
+  .dimrow .dguide{grid-column:1/2; font-size:14.5px; color:var(--body); margin-top:6px; line-height:1.55}
+  .chip{font-size:11.5px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:#fff; padding:4px 10px; border-radius:2px; white-space:nowrap; align-self:start}
+  .priority{background:#fbf7f0; border:1px solid var(--line-strong); border-left:3px solid var(--copper); border-radius:2px; padding:22px 24px; margin:34px 0}
+  .priority h3{font-size:18px; margin-bottom:6px}
+  .priority p.pl{font-size:14.5px; color:var(--body); margin-bottom:14px}
+  .priority ul{list-style:none}
+  .priority li{padding:7px 0; border-top:1px solid var(--line); font-size:15px; color:var(--ink); display:flex; justify-content:space-between; gap:14px}
+  .priority li:first-child{border-top:none}
+
+  /* ---------- remedy ---------- */
+  .remedy{margin:34px 0 10px}
+  .remedy h3{font-size:19px; margin-bottom:6px}
+  .remedy p.rl{font-size:14.5px; color:var(--muted); margin-bottom:16px; max-width:52ch}
+  .stage{display:grid; grid-template-columns:110px 1fr; gap:14px; padding:9px 0; border-top:1px solid var(--line); font-size:14.5px}
+  .stage:first-of-type{border-top:none}
+  .stage .sn{font-weight:600; color:var(--copper); letter-spacing:.03em}
+  .stage .sd{color:var(--body)}
+
+  .cta{background:var(--navy); color:#dbe4ea; border-radius:3px; padding:34px 30px; margin-top:36px}
+  .cta .eyebrow{color:var(--copper)}
+  .cta h3{color:#fff; font-size:24px; margin:12px 0 10px}
+  .cta p{font-size:15.5px; color:#c1cfd8; max-width:52ch; margin-bottom:22px}
+  .helps{font-size:15.5px; color:var(--body); max-width:54ch; margin:30px 0 0}
+  .helps p{margin-bottom:12px}
+  .helps .sig{color:var(--copper); font-weight:600}
+
+  .footer{border-top:1px solid var(--line); padding:26px 0 40px; font-size:12.5px; color:var(--muted)}
+  .footer .wrap{display:flex; flex-direction:column; gap:6px}
+
+  @media (max-width:560px){
+    body{font-size:16px}
+    .hero h1{font-size:30px}
+    .result-band{font-size:32px}
+    .grid2{grid-template-columns:1fr}
+    .dim-title{font-size:24px}
+    .stage{grid-template-columns:1fr; gap:2px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 40 36" aria-hidden="true">
+      <path d="M20 2 L38 34 L2 34 Z" fill="none" stroke="#1A3A52" stroke-width="2.5"/>
+      <path d="M24 12 L38 34 L10 34 Z" fill="#B08D57" opacity="0.9"/>
+    </svg>
+    <div class="brand">Delta Investment Partners <span>· Governance Scorecard</span></div>
+  </div>
+</div>
+
+<div id="app"></div>
+
+<div class="footer">
+  <div class="wrap">
+    <div>Delta Investment Partners — Institutional rigour. Boutique service.</div>
+    <div>This scorecard is a self-assessment and provides general information only, not personal advice. For wholesale clients.</div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG — API URLs are relative on purpose: they resolve from the site
+   root, so the page works at /governance/ on any domain.
+   ===================================================================== */
+const CONFIG = {
+  SUBMIT_URL: "/api/submit",
+  CONFIG_URL: "/api/config",
+  TURNSTILE_SITE_KEY: "0x4AAAAAADu1R5i-Gidbl64B",
+  START_CONVERSATION_URL: "https://deltaip.com.au/contact"
+};
+
+/* Mirrors the seeded scoring_config row. Live values from CONFIG_URL
+   override these, so editing weights in Supabase keeps the on-screen
+   headline in sync with the back end. */
+let SCORING = {
+  band_points:{foundational:0, developing:33.33, robust:66.67, institutional_grade:100},
+  dimension_weights:{d1:1.5,d2:1.25,d3:1.25,d4:1.5,d5:1.25,d6:1.5,d7:1.5,d8:1.0},
+  band_thresholds:{developing:26, robust:51, institutional_grade:81}
+};
+
+const BAND_ORDER=["foundational","developing","robust","institutional_grade"];
+const BAND_LABEL={foundational:"Foundational",developing:"Developing",robust:"Robust",institutional_grade:"Institutional-grade"};
+const BAND_COLOR={foundational:"var(--band-foundational)",developing:"var(--band-developing)",robust:"var(--band-robust)",institutional_grade:"var(--band-institutional)"};
+
+/* =====================================================================
+   INSTRUMENT v2 — 8 dimensions, 17 probes
+   Grounded in the Delta AFSL Investment Governance Framework v1.3
+   ===================================================================== */
+const DIMENSIONS=[
+ {id:"d1", n:1, title:"Governance architecture & beliefs",
+  probes:[
+   {id:"d1a", prompt:"Which best describes your investment governance framework and committee charter?",
+    options:{
+     foundational:"Neither exists; governance arrangements are understood informally.",
+     developing:"Some documents exist (an IPS, or terms of reference), but no consolidated framework defining decision-making, accountability and review.",
+     robust:"A documented governance framework and committee charter define structure, decision hierarchy, accountability and review cadence.",
+     institutional_grade:"Board-endorsed framework, charter and IPS operate together, are reviewed on a set cycle, and demonstrably drive how decisions are made — not merely filed."}},
+   {id:"d1b", prompt:"Which best describes your documented investment philosophy and beliefs?",
+    options:{
+     foundational:"Not written down; the philosophy is implicit and varies between advisers.",
+     developing:"Some principles appear in an IPS or mandate, but there's no articulated beliefs statement.",
+     robust:"A documented beliefs statement exists and is referenced when decisions are made.",
+     institutional_grade:"Board-endorsed beliefs are documented, reviewed on a cycle, and explicitly anchor how investment decisions are framed and evaluated across the licensee."}}
+  ]},
+
+ {id:"d2", n:2, title:"Investment Committee & organisational competence",
+  probes:[
+   {id:"d2a", prompt:"Which best describes your Investment Committee?",
+    options:{
+     foundational:"No standing IC; investment decisions are effectively made by one or two individuals.",
+     developing:"An IC exists, but membership, required skills and quorum aren't clearly defined, and it meets irregularly.",
+     robust:"A properly constituted IC with defined membership, skills mix and quorum, meeting on a regular cycle under a charter.",
+     institutional_grade:"As above, plus a deliberately designed skills mix, documented succession so it doesn't depend on any one person, and an annual review of the committee's own effectiveness."}},
+   {id:"d2b", prompt:"How much genuine investment expertise sits inside your licensee?",
+    options:{
+     foundational:"No dedicated investment expertise; we rely on advisers' own judgement and on product providers.",
+     developing:"Some investment experience among principals or advisers, but no dedicated investment function and limited capacity to assess products independently.",
+     robust:"Identified investment expertise (internal or engaged) with the capacity to assess products and managers independently of the provider.",
+     institutional_grade:"Demonstrable, documented organisational competence — expertise sufficient to interrogate any product or manager on the APL, and evidenced for RG 105 purposes."}}
+  ]},
+
+ {id:"d3", n:3, title:"Decision rights, delegation & accountability",
+  probes:[
+   {id:"d3a", prompt:"How are investment decision rights and delegations defined?",
+    options:{
+     foundational:"Not documented; who may decide what is understood informally.",
+     developing:"Broadly understood and partly documented, with ambiguity at the edges (off-APL products, position sizing, thresholds).",
+     robust:"A documented delegations framework sets out what the committee decides versus what's delegated to advisers, managed account providers or the CIO, with escalation thresholds.",
+     institutional_grade:"Precise decision rights and delegated authorities with explicit limits, escalation triggers, active monitoring for breaches, and periodic board-approved review."}},
+   {id:"d3b", prompt:"When a product on your APL was last assessed, who was accountable for that due diligence?",
+    options:{
+     foundational:"We're not certain — it may have been the platform, the research house, or the adviser.",
+     developing:"We assume the research house or platform did it, but the licensee hasn't documented where that accountability sits.",
+     robust:"The licensee has explicitly identified who is accountable for each assessment, including where work is outsourced.",
+     institutional_grade:"Accountability is documented and enforced across every outsourced arrangement — the licensee retains and evidences responsibility for work performed by platforms, research houses and providers."}}
+  ]},
+
+ {id:"d4", n:4, title:"APL & product governance",
+  probes:[
+   {id:"d4a", prompt:"Which best describes your Approved Product List governance?",
+    options:{
+     foundational:"There's no formal APL, or products are added largely on request, relationship, or provider approach.",
+     developing:"An APL exists, but inclusion and removal criteria aren't clearly documented and reviews happen irregularly.",
+     robust:"Documented inclusion and removal criteria, a defined review cadence and a watchlist process, with decisions recorded.",
+     institutional_grade:"All of the above applied consistently, with due diligence, conflict assessment and DDO/target-market considerations evidenced for every product on the list."}},
+   {id:"d4b", prompt:"How rigorous is the research behind products on your APL?",
+    options:{
+     foundational:"We rely principally on external ratings, provider material or reputation, with little independent analysis.",
+     developing:"Some research and rationale is recorded, but coverage is uneven; operational due diligence and fee benchmarking are often light or skipped.",
+     robust:"A documented research methodology covering quantitative screens, qualitative assessment and operational due diligence, with written rationale on file.",
+     institutional_grade:"A consistent methodology covering investment and operational due diligence and fee benchmarking against alternatives, with a clear evidentiary trail behind every approval — and independent of any research provider's own commercial interests."}}
+  ]},
+
+ {id:"d5", n:5, title:"Rationale, documentation & evidence",
+  probes:[
+   {id:"d5a", prompt:"Before a material investment decision, what documentation exists?",
+    options:{
+     foundational:"Little or none; the rationale is verbal and any write-up comes after the fact.",
+     developing:"A short paper or email for the largest decisions, focused on the recommendation rather than the alternatives considered.",
+     robust:"A standard decision paper setting out rationale is prepared before most material decisions and forms the basis of the committee's discussion.",
+     institutional_grade:"Every material decision has a paper on file before the decision — options considered, analysis, risks, rationale, and the conditions under which the decision would be revisited."}},
+   {id:"d5b", prompt:"If ASIC asked tomorrow for evidence of how a specific investment decision was made, what could you produce?",
+    options:{
+     foundational:"Little beyond the outcome; we'd struggle to reconstruct who decided, why, or on what basis.",
+     developing:"Minutes or emails exist, but assembling a complete record of rationale, attendance and conflicts would take significant effort.",
+     robust:"A decision register and committee minutes link each decision to its rationale, attendees and any conflicts declared, and could be produced on request.",
+     institutional_grade:"A complete, current evidence file — decision register, minutes, rationale, conflicts, actions tracked to close — produced promptly, demonstrating governance operating rather than merely documented."}}
+  ]},
+
+ {id:"d6", n:6, title:"The challenge function",
+  probes:[
+   {id:"d6a", prompt:"Think of the person most likely to challenge an investment recommendation in your business. Which of these conditions do they meet?",
+    options:{
+     foundational:"No one is positioned to challenge; recommendations are effectively approved by those who make them.",
+     developing:"Someone can raise an objection, but they lack either independence from the proposal, the authority to compel an answer, or the competence to assess its merit.",
+     robust:"A challenger meets two of the three — independence from the proposal, authority to require the objection be answered, competence to assess the substance.",
+     institutional_grade:"All three conditions are satisfied together: a challenger whose interests are not aligned with the proposer's, with authority to require an answer, and the competence to assess the investment merit."}},
+   {id:"d6b", prompt:"What happens to dissenting views in your investment decisions?",
+    options:{
+     foundational:"Dissent rarely surfaces; decisions are presented as consensus and disagreement isn't recorded.",
+     developing:"Disagreement is heard but not documented, and challenging a senior or influential view carries some cost.",
+     robust:"Dissent is captured in the minutes, and members are free to challenge regardless of seniority.",
+     institutional_grade:"Structured challenge is standard on material decisions (a designated challenger, a pre-mortem, or a required case against), and dissent is recorded as a matter of course and revisited when conditions change."}}
+  ]},
+
+ {id:"d7", n:7, title:"Conflicts & independence of advice",
+  probes:[
+   {id:"d7a", prompt:"How are conflicts of interest in investment decisions managed?",
+    options:{
+     foundational:"Conflicts aren't formally identified or documented.",
+     developing:"Conflicts are recognised informally as they arise and disclosure is relied on, but there's no register or defined controls.",
+     robust:"A conflicts register exists and is reviewed; material conflicts are disclosed and actively managed with defined controls and escalation.",
+     institutional_grade:"Conflicts systematically identified, registered, controlled and escalated — with each decision demonstrably made in the client's interest and the management of every conflict on record."}},
+   {id:"d7b", prompt:"How free is your product selection from commercial incentives?",
+    options:{
+     foundational:"Selection is materially influenced by in-house or related-party product, platform economics, referral arrangements, or remuneration linked to fund flow.",
+     developing:"Mostly independent, but some platform, product or remuneration incentives sit in the background and haven't been fully addressed.",
+     robust:"The main commercial incentives have been identified and mitigated, and selection is largely free of them.",
+     institutional_grade:"Selection is structurally independent — no related-party bias, no conflicted remuneration, no reliance on research paid for by the managers being assessed — and that independence is demonstrable."}}
+  ]},
+
+ {id:"d8", n:8, title:"Monitoring, drift & accountability",
+  probes:[
+   {id:"d8a", prompt:"How are investments and managers monitored after they're approved?",
+    options:{
+     foundational:"We review performance periodically, with little structured monitoring against the original thesis.",
+     developing:"Monitoring happens ad hoc; managers tend to be reviewed — or replaced — principally on recent performance.",
+     robust:"Monitoring runs on a defined cadence with watchlist and termination triggers, documented and reviewed by the committee.",
+     institutional_grade:"Positions and managers are monitored against the thesis recorded when they were approved, with pre-defined conditions for reconsideration, so decisions are revisited on evidence rather than on recent performance."}},
+   {id:"d8b", prompt:"Do you know whether clients with the same risk profile receive materially different outcomes across your advisers?",
+    options:{
+     foundational:"We don't measure it, and we're not confident we could.",
+     developing:"We could measure it from data we already hold, but we don't.",
+     robust:"We measure dispersion periodically and investigate material differences not explained by client circumstances.",
+     institutional_grade:"Dispersion is monitored as standard, differences are explained or corrected, and findings feed a documented annual governance review with actions tracked to close."}},
+   {id:"d8c", prompt:"Over the past few years, has your asset allocation or APL drifted from stated policy?",
+    options:{
+     foundational:"We wouldn't know — there's no stated policy to drift from, or no review against it.",
+     developing:"Possibly. Each change was defensible on its own, but we haven't stepped back to assess the cumulative effect.",
+     robust:"We review actual positioning against policy on a defined cycle and correct material drift.",
+     institutional_grade:"Positioning is monitored against policy continuously, cumulative drift is explicitly assessed and reported, and policy is either enforced or consciously changed — never allowed to erode by increments."}}
+  ]}
+];
+
+/* =====================================================================
+   RESULT COPY v2 — ASIC floor / institutional bar
+   ===================================================================== */
+const HEADLINE={
+ foundational:"Your investment governance rests on individuals and trust rather than documented process — and would be difficult to defend under scrutiny.",
+ developing:"The building blocks are there, but applied unevenly — with gaps a regulatory review would likely find.",
+ robust:"A genuine governance framework is operating and would stand up to scrutiny. What's missing is what would set you apart.",
+ institutional_grade:"Your governance operates as a competitive advantage rather than a compliance cost."
+};
+
+const INTERPRET={
+ foundational:"Your governance currently rests on the judgement and goodwill of a small number of people rather than on documented process. That can work while the team is small and stable and the people are capable — and many firms in this position get perfectly good outcomes. The exposure is that none of it is defensible: if a key person leaves, a client complains, or ASIC asks how a particular decision was reached, there is little to produce. That question is being asked more often now, and answered less charitably. The distance to the standard is wide — but this is also the most improvable position on the scale, because a small number of foundational structures move you a long way.",
+ developing:"You have most of the building blocks — an APL, a committee, some documentation — but they operate unevenly. Documentation for some decisions and not others. Challenge when someone chooses to speak up, rather than by design. Accountability that is understood rather than defined. This is where most licensees sit, and it's worth being precise about what it means: capable people, often getting good outcomes, on a framework that would not fully withstand a regulatory review. The gaps here aren't exotic — they're consistency and evidence. That is what makes this position deceptive: nothing feels wrong until someone asks you to prove it.",
+ robust:"A real governance framework is operating. Decisions are documented, the committee functions, conflicts are registered, and you could defend your process if asked. You have cleared the regulatory floor — which many have not. What separates you from institutional-grade is not structure but independence and evidence: whether challenge is genuinely independent by design rather than by goodwill, whether your documents drive decisions rather than describe them, and whether you can demonstrate governance operating rather than governance existing. These gaps are specific and addressable — and they're the ones that turn governance from a cost into a differentiator.",
+ institutional_grade:"Your governance operates at the standard that distinguishes licensees who merely comply from those who can demonstrate genuine oversight: independent challenge, documented rationale, conflicts actively managed, decisions monitored against the thesis that justified them. Few licensees reach this across every dimension, and holding it is its own discipline — frameworks erode by increments as the business grows and people change, and the firms most confident in their governance are often the ones who have stopped testing it. The value now is in stress-testing that it holds under pressure."
+};
+
+const GUIDE={
+ d1:"Institutional-grade licensees write down what they believe about investing and how they will govern it — a board-endorsed beliefs statement, governance framework and charter — and then actually use them, reviewed on a set cycle and anchoring how decisions are framed and judged. The test isn't whether the framework exists. It's whether someone reading your last twelve months of decisions could tell that it does.",
+ d2:"At the top standard the committee is deliberately constructed — a defined skills mix, quorum and documented succession, so it doesn't depend on any one person — and the licensee can independently interrogate what it is being sold. Organisational competence isn't about running a large investment team; it's about whether anyone in the room can assess a product on its merits rather than on the provider's material.",
+ d3:"Institutional-grade governance sets out precisely who decides what, with delegated authorities carrying explicit limits, escalation triggers and monitoring for breaches. Critically, it extends across outsourced boundaries: where a platform, research house or provider does the work, the licensee still knows — and can evidence — that it retained the responsibility. You can outsource the activity. You cannot outsource the accountability.",
+ d4:"The APL is where governance is most visible and most often found wanting — weak APL governance has been central to most enforcement action in this market. The top standard is documented inclusion and removal criteria applied consistently, a genuine review cadence and watchlist, and due diligence, conflict assessment and target-market considerations evidenced for every product on the list. The harder question isn't why a product got on. It's why it's still there.",
+ d5:"The best licensees document the case for a decision before they make it — options, analysis, risks, rationale, and the conditions under which they would revisit it — so the paper is the basis of the discussion rather than a justification written afterwards. Evidence is not a by-product of governance; it is governance. The standard is a complete file you could produce promptly, showing governance operating rather than merely documented.",
+ d6:"Effective challenge requires three conditions at once: someone whose interests are not aligned with the proposal, who has the authority to require an objection be answered, and who has the competence to assess the substance. They are rarely satisfied together — the adviser is independent but not credible on investment merit; the compliance officer is credible but cannot assess it; the research house is competent but has no authority and is paid by the managers it rates. Institutional-grade means the challenger meets all three, and dissent is recorded as a matter of course rather than resolved into consensus.",
+ d7:"The top standard is both process and structure. Conflicts are systematically identified, registered, controlled and escalated — disclosure alone is not management. And selection is structurally independent: no related-party bias, no remuneration linked to fund flow, no reliance on research paid for by the managers being assessed. Independence you can evidence, not merely assert.",
+ d8:"Institutional-grade licensees close the loop. Positions are monitored against the thesis recorded when they were approved, so they're revisited on evidence rather than on recent performance. Dispersion across advisers is measured, not assumed — most licensees could measure it from data they already hold, and don't. And drift is assessed cumulatively: each step defensible on its own, the sum a material move away from stated policy."
+};
+
+const STAGES=[
+ ["Govern","establish the framework, beliefs, charter and decision rights."],
+ ["Implement","put the IPS, APL, delegations and committee cadence into operation."],
+ ["Monitor","run the reviews, triggers and dispersion measurement."],
+ ["Evidence","build the register, minutes and files that demonstrate it operating."],
+ ["Improve","review the framework and the committee itself; close actions."]
+];
+
+const ORG_TYPES=[
+ ["","Select…"],["licensee","AFSL holder / dealer group"],["advice_practice","Advice practice (self-licensed)"],
+ ["asset_owner","Asset owner / institution"],["platform_operator","Platform / managed-account operator"],["other","Other"]
+];
+
+/* =====================================================================
+   STATE + SCORING
+   ===================================================================== */
+const answers={};
+let stepIndex=0;              // 0=intro, 1..8=dimensions, 9=result
+let resultPhase="free";
+const app=document.getElementById("app");
+const NDIM=DIMENSIONS.length;
+
+function pts(band){return SCORING.band_points[band] ?? 0;}
+function dimScore(dim){
+  const vals=dim.probes.map(p=>pts(answers[p.id]));
+  return vals.reduce((a,b)=>a+b,0)/vals.length;
+}
+function bandForScore(s){
+  const t=SCORING.band_thresholds;
+  if(s>=t.institutional_grade) return "institutional_grade";
+  if(s>=t.robust) return "robust";
+  if(s>=t.developing) return "developing";
+  return "foundational";
+}
+function composite(){
+  let wsum=0, tot=0;
+  DIMENSIONS.forEach(d=>{
+    const w=SCORING.dimension_weights[d.id] ?? 1;
+    tot += dimScore(d)*w; wsum += w;
+  });
+  return wsum? tot/wsum : 0;
+}
+function dimComplete(dim){return dim.probes.every(p=>answers[p.id]);}
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+function render(){
+  window.scrollTo({top:0,behavior:"instant"});
+  if(stepIndex===0) return renderIntro();
+  if(stepIndex>=1 && stepIndex<=NDIM) return renderDimension(DIMENSIONS[stepIndex-1]);
+  return renderResult();
+}
+
+function renderIntro(){
+  app.innerHTML=`
+  <div class="hero"><div class="wrap screen">
+    <div class="eyebrow on-navy">Investment Governance Diagnostic</div>
+    <h1>How does your investment governance measure up?</h1>
+    <p class="lede">A structured self-assessment across eight dimensions of investment governance — benchmarked not against your peers, but against institutional-grade practice.</p>
+    <div class="facts">
+      <div class="fact"><div class="n">8</div><div class="l">dimensions of governance</div></div>
+      <div class="fact"><div class="n">~6</div><div class="l">minutes to complete</div></div>
+      <div class="fact"><div class="n">1</div><div class="l">standard: institutional-grade</div></div>
+    </div>
+    <button class="btn btn-on-navy" id="begin">Begin the diagnostic <span class="arrow">&rarr;</span></button>
+    <p class="note">For wholesale investors — AFSL holders, dealer groups, advice practices and investment committees. Your answers are private until you choose to see your full result.</p>
+  </div></div>`;
+  document.getElementById("begin").onclick=()=>{stepIndex=1; render();};
+}
+
+function renderDimension(dim){
+  const pct=Math.round(((stepIndex-1)/NDIM)*100);
+  const probesHtml=dim.probes.map(p=>`
+    <div class="qblock">
+      <div class="qprompt">${p.prompt}</div>
+      <div class="options">
+        ${BAND_ORDER.map(b=>`
+          <div class="opt">
+            <input type="radio" id="${p.id}_${b}" name="${p.id}" value="${b}" ${answers[p.id]===b?"checked":""}/>
+            <label for="${p.id}_${b}">
+              <span class="band-tag">${BAND_LABEL[b]}</span>
+              <span class="band-desc">${p.options[b]}</span>
+            </label>
+          </div>`).join("")}
+      </div>
+    </div>`).join("");
+
+  app.innerHTML=`
+  <div class="wrap">
+    <div class="progress">
+      <div class="progress-meta">
+        <span class="step">Dimension ${dim.n} of ${NDIM}</span>
+        <span class="step">${pct}%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="screen">
+      <div class="eyebrow">Dimension ${String(dim.n).padStart(2,"0")}</div>
+      <h2 class="dim-title">${dim.title}</h2>
+      <div>${probesHtml}</div>
+      <div class="gate-error" id="dimErr">Please answer every question to continue.</div>
+      <div class="nav-row">
+        <button class="btn btn-ghost" id="back">&larr; Back</button>
+        <button class="btn btn-primary" id="next">${dim.n===NDIM?"See your result":"Continue"} <span class="arrow">&rarr;</span></button>
+      </div>
+    </div>
+  </div>`;
+
+  app.querySelectorAll('input[type=radio]').forEach(r=>{
+    r.addEventListener("change",e=>{answers[e.target.name]=e.target.value; document.getElementById("dimErr").style.display="none";});
+  });
+  document.getElementById("back").onclick=()=>{stepIndex--; render();};
+  document.getElementById("next").onclick=()=>{
+    if(!dimComplete(dim)){document.getElementById("dimErr").style.display="block"; return;}
+    stepIndex++; render();
+  };
+}
+
+/* ---------- radar: 8 spokes, filling toward the copper standard ---------- */
+function buildRadar(){
+  const size=320, cx=size/2, cy=size/2+6, R=116, N=NDIM;
+  const ang=i=>(-Math.PI/2)+(i*2*Math.PI/N);
+  const pt=(i,r)=>[cx+Math.cos(ang(i))*r, cy+Math.sin(ang(i))*r];
+  let rings="";
+  [0.25,0.5,0.75].forEach(f=>{
+    const p=Array.from({length:N},(_,i)=>pt(i,R*f).map(v=>v.toFixed(1)).join(",")).join(" ");
+    rings+=`<polygon points="${p}" fill="none" stroke="#e0d8cb" stroke-width="1"/>`;
+  });
+  const outer=Array.from({length:N},(_,i)=>pt(i,R).map(v=>v.toFixed(1)).join(",")).join(" ");
+  let spokes="";
+  DIMENSIONS.forEach((d,i)=>{
+    const [x,y]=pt(i,R);
+    spokes+=`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#e0d8cb" stroke-width="1"/>`;
+    const [lx,ly]=pt(i,R+16);
+    spokes+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-size="12" font-weight="600" fill="#1A3A52" text-anchor="middle" dominant-baseline="middle">D${d.n}</text>`;
+  });
+  const data=DIMENSIONS.map((d,i)=>{const r=R*(dimScore(d)/100); return pt(i,r).map(v=>v.toFixed(1)).join(",");}).join(" ");
+  return `<svg width="${size}" height="${size+20}" viewBox="0 0 ${size} ${size+20}" role="img" aria-label="Your governance profile across eight dimensions">
+    ${rings}
+    <polygon points="${outer}" fill="none" stroke="#B08D57" stroke-width="1.75"/>
+    ${spokes}
+    <polygon points="${data}" fill="rgba(21,112,107,.18)" stroke="#15706B" stroke-width="2"/>
+    ${DIMENSIONS.map((d,i)=>{const r=R*(dimScore(d)/100);const[x,y]=pt(i,r);return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="#15706B"/>`;}).join("")}
+  </svg>`;
+}
+
+function renderResult(){
+  const comp=composite();
+  const band=bandForScore(comp);
+
+  if(resultPhase==="free"){
+    app.innerHTML=`
+    <div class="wrap"><div class="screen">
+      <div class="eyebrow">Your result</div>
+      <h2 class="result-band" style="color:${BAND_COLOR[band]}">${BAND_LABEL[band]}</h2>
+      <p class="result-line">${HEADLINE[band]}</p>
+      <div class="radar-holder">${buildRadar()}</div>
+      <div class="radar-legend">
+        <span class="k"><span class="swatch" style="background:#B08D57"></span>Institutional-grade standard</span>
+        <span class="k"><span class="swatch" style="background:#15706B"></span>Your profile</span>
+      </div>
+      <div class="gate">
+        <h3>See your full breakdown</h3>
+        <p class="gate-sub">Your result across all eight dimensions, what institutional-grade looks like on each, and where your gaps are widest. Enter your work email to unlock the full breakdown.</p>
+        <div class="grid2">
+          <div class="field"><label for="f_name">Name</label><input id="f_name" autocomplete="name"/></div>
+          <div class="field"><label for="f_email">Work email</label><input id="f_email" type="email" autocomplete="email"/></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="f_org">Organisation</label><input id="f_org" autocomplete="organization"/></div>
+          <div class="field"><label for="f_role">Role</label><input id="f_role" autocomplete="organization-title"/></div>
+        </div>
+        <div class="field"><label for="f_type">Organisation type</label>
+          <select id="f_type">${ORG_TYPES.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join("")}</select>
+        </div>
+        <label class="consent"><input type="checkbox" id="f_consent"/>
+          <span>I agree that Delta Investment Partners may use these details to send my result and contact me about it, and may use my responses in de-identified, aggregated form to benchmark investment governance across the industry.</span></label>
+        ${CONFIG.TURNSTILE_SITE_KEY?`<div class="cf-turnstile"></div>`:""}
+        <div class="gate-error" id="gateErr"></div>
+        <button class="btn btn-primary" id="unlock">Unlock my full result <span class="arrow">&rarr;</span></button>
+      </div>
+      <div class="nav-row"><button class="btn btn-ghost" id="back">&larr; Back</button><span></span></div>
+    </div></div>`;
+
+    document.getElementById("back").onclick=()=>{stepIndex=NDIM; render();};
+    document.getElementById("unlock").onclick=submitGate;
+
+    // Render Turnstile explicitly once the gate exists (the async script may
+    // not be ready when this page renders its content via JavaScript).
+    if(CONFIG.TURNSTILE_SITE_KEY){
+      const holder=app.querySelector(".cf-turnstile");
+      const renderWidget=()=>{ if(window.turnstile && holder && !holder.dataset.rendered){ holder.dataset.rendered="1"; window.turnstile.render(holder,{sitekey:CONFIG.TURNSTILE_SITE_KEY}); } };
+      if(window.turnstile){ renderWidget(); }
+      else { const t=setInterval(()=>{ if(window.turnstile){ clearInterval(t); renderWidget(); } },200); setTimeout(()=>clearInterval(t),15000); }
+    }
+
+  } else {
+    const ranked=[...DIMENSIONS].sort((a,b)=>dimScore(a)-dimScore(b));
+    const gaps=ranked.slice(0,3).filter(d=>bandForScore(dimScore(d))!=="institutional_grade");
+
+    const dimRows=DIMENSIONS.map(d=>{
+      const b=bandForScore(dimScore(d));
+      return `<div class="dimrow">
+        <div class="dname">D${d.n} · ${d.title}</div>
+        <span class="chip" style="background:${BAND_COLOR[b]}">${BAND_LABEL[b]}</span>
+        <div class="dguide">${GUIDE[d.id]}</div>
+      </div>`;
+    }).join("");
+
+    const gapList = gaps.length? `
+      <div class="priority">
+        <h3>Where the distance to the standard is greatest</h3>
+        <p class="pl">Not a verdict — these are the dimensions where your current practice sits furthest from institutional-grade, and where focused attention will move you forward fastest.</p>
+        <ul>${gaps.map(d=>`<li><span>D${d.n} · ${d.title}</span><span class="chip" style="background:${BAND_COLOR[bandForScore(dimScore(d))]}">${BAND_LABEL[bandForScore(dimScore(d))]}</span></li>`).join("")}</ul>
+      </div>`:"";
+
+    const remedy=`
+      <div class="remedy">
+        <h3>What closing the gap looks like</h3>
+        <p class="rl">Your priority gaps point to where this sequence should start.</p>
+        ${STAGES.map(s=>`<div class="stage"><div class="sn">${s[0]}</div><div class="sd">${s[1]}</div></div>`).join("")}
+      </div>`;
+
+    app.innerHTML=`
+    <div class="wrap"><div class="screen">
+      <div class="eyebrow">Your full result</div>
+      <h2 class="result-band" style="color:${BAND_COLOR[band]}">${BAND_LABEL[band]}</h2>
+      <p class="detail-intro">${INTERPRET[band]}</p>
+      ${dimRows}
+      ${gapList}
+      ${remedy}
+      <div class="helps">
+        <p><strong>How Delta helps.</strong> Delta works with licensees and boards to close exactly these gaps — establishing governance frameworks and investment beliefs, building independent challenge into how decisions are made, and serving on investment committees as the independent member.</p>
+        <p>We do not manage money and we do not distribute product. We have nothing that could appear on your APL, and we are not paid by anyone whose products you assess. That is deliberate — and it is what allows us to meet all three conditions of an effective challenge function at once: independence of interest, the authority to require an answer, and the competence to assess the substance.</p>
+        <p class="sig">Institutional rigour. Boutique service.</p>
+      </div>
+      <div class="cta">
+        <div class="eyebrow">Want us to pressure-test this properly?</div>
+        <h3>Turn a self-assessment into an independent view.</h3>
+        <p>This is a self-assessment — which is precisely what a challenge function exists to correct. A short conversation with Delta shows where your governance genuinely stands, and the two or three changes that would matter most.</p>
+        <a class="btn btn-on-navy" href="${CONFIG.START_CONVERSATION_URL}">Start a conversation <span class="arrow">&rarr;</span></a>
+      </div>
+    </div></div>`;
+  }
+}
+
+/* =====================================================================
+   SUBMIT
+   ===================================================================== */
+async function submitGate(){
+  const err=document.getElementById("gateErr");
+  const val=id=>document.getElementById(id).value.trim();
+  const name=val("f_name"), email=val("f_email"), org=val("f_org"),
+        role=val("f_role"), type=document.getElementById("f_type").value,
+        consent=document.getElementById("f_consent").checked;
+  err.style.display="none";
+
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!name||!emailOk||!org){err.textContent="Please enter your name, a valid work email, and your organisation."; err.style.display="block"; return;}
+  if(!consent){err.textContent="Please tick the consent box to see your result."; err.style.display="block"; return;}
+
+  const token=(window.turnstile && CONFIG.TURNSTILE_SITE_KEY)?(window.turnstile.getResponse()||""):"";
+  if(CONFIG.TURNSTILE_SITE_KEY && !token){err.textContent="Please complete the verification check."; err.style.display="block"; return;}
+
+  const btn=document.getElementById("unlock");
+  btn.disabled=true; btn.textContent="Preparing your result…";
+
+  const payload={
+    contact:{name,email,organisation:org,role,org_type:type,consent},
+    answers, token,
+    client_composite:Math.round(composite()*100)/100
+  };
+
+  try{
+    if(CONFIG.TURNSTILE_SITE_KEY){
+      const r=await fetch(CONFIG.SUBMIT_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+      if(!r.ok){
+        let m="We couldn't verify your submission. Please try again.";
+        try{const j=await r.json(); if(j&&j.error) m=j.error;}catch(e){}
+        err.textContent=m; err.style.display="block";
+        btn.disabled=false; btn.innerHTML='Unlock my full result <span class="arrow">&rarr;</span>';
+        if(window.turnstile){try{window.turnstile.reset();}catch(e){}}
+        return;
+      }
+    }
+  }catch(e){/* network/preview: show the result rather than block the user */}
+
+  resultPhase="detail"; render();
+}
+
+/* Sync live scoring weights so the on-screen score matches the back end. */
+(async function initConfig(){
+  try{
+    const r=await fetch(CONFIG.CONFIG_URL,{method:"GET"});
+    if(r.ok){const c=await r.json(); if(c&&c.dimension_weights) SCORING={...SCORING,...c};}
+  }catch(e){/* use defaults */}
+  render();
+})();
+</script>
+</body>
+</html>
