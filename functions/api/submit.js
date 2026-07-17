@@ -1,17 +1,23 @@
-// functions/api/submit.js
+// functions/api/submit.js  —  v2 (8 dimensions, 17 probes)
 // Cloudflare Pages Function — handles POST /api/submit
 // Flow: verify Turnstile → validate input → load live scoring config →
 //       score authoritatively → insert the response into Supabase.
 //
-// Environment variables (set in Cloudflare Pages → Settings → Environment variables,
-// NEVER committed to the repo):
-//   SUPABASE_URL          e.g. https://xxxxxxxx.supabase.co
+// Environment variables (set in Cloudflare Pages → Settings → Variables
+// and secrets, NEVER committed to the repo):
+//   SUPABASE_URL          e.g. https://xxxxxxxx.supabase.co   (no trailing slash)
 //   SUPABASE_SECRET_KEY   the sb_secret_... key (bypasses RLS; server-only)
 //   TURNSTILE_SECRET_KEY  the Cloudflare Turnstile secret key
 
 const PROBES_BY_DIM = {
-  d1:["d1a","d1b"], d2:["d2a","d2b"], d3:["d3a","d3b"], d4:["d4a","d4b"],
-  d5:["d5a","d5b"], d6:["d6a","d6b"], d7:["d7a","d7b"]
+  d1:["d1a","d1b"],
+  d2:["d2a","d2b"],
+  d3:["d3a","d3b"],
+  d4:["d4a","d4b"],
+  d5:["d5a","d5b"],
+  d6:["d6a","d6b"],
+  d7:["d7a","d7b"],
+  d8:["d8a","d8b","d8c"]      // D8 carries a third probe (policy drift)
 };
 const ALL_PROBES = Object.values(PROBES_BY_DIM).flat();
 const VALID_BANDS = ["foundational","developing","robust","institutional_grade"];
@@ -44,7 +50,7 @@ export async function onRequestPost(context) {
   if (!consent) return json({ ok: false, error: "Consent is required." }, 400);
   if (!VALID_ORG_TYPES.includes(orgType)) return json({ ok: false, error: "Invalid organisation type." }, 400);
 
-  // --- 2. Validate answers (all 13 probes, valid bands only) ---
+  // --- 2. Validate answers (all 17 probes, valid bands only) ---
   for (const p of ALL_PROBES) {
     if (!VALID_BANDS.includes(answers[p])) return json({ ok: false, error: "Incomplete answers." }, 400);
   }
