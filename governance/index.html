@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Investment Governance Scorecard · Delta Investment Partners</title>
-<meta name="description" content="An eight-dimension diagnostic of investment governance maturity for AFSL holders and advice licensees, benchmarked against institutional-grade practice." />
+<meta name="description" content="An eight-dimension scorecard of investment governance maturity for AFSL holders and advice licensees, benchmarked against institutional-grade practice." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -446,7 +446,7 @@ function render(){
 function renderIntro(){
   app.innerHTML=`
   <div class="hero"><div class="wrap screen">
-    <div class="eyebrow on-navy">Investment Governance Diagnostic</div>
+    <div class="eyebrow on-navy">Investment Governance Scorecard</div>
     <h1>How does your investment governance measure up?</h1>
     <p class="lede">A structured self-assessment across eight dimensions of investment governance — benchmarked not against your peers, but against institutional-grade practice.</p>
     <div class="facts">
@@ -454,7 +454,7 @@ function renderIntro(){
       <div class="fact"><div class="n">~6</div><div class="l">minutes to complete</div></div>
       <div class="fact"><div class="n">1</div><div class="l">standard: institutional-grade</div></div>
     </div>
-    <button class="btn btn-on-navy" id="begin">Begin the diagnostic <span class="arrow">&rarr;</span></button>
+    <button class="btn btn-on-navy" id="begin">Begin the scorecard <span class="arrow">&rarr;</span></button>
     <p class="note">For wholesale investors — AFSL holders, dealer groups, advice practices and investment committees. Your answers are private until you choose to see your full result.</p>
   </div></div>`;
   document.getElementById("begin").onclick=()=>{stepIndex=1; render();};
