@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Investment Governance Scorecard · Delta Investment Partners</title>
+<title>Investment Governance Scorecard · BNV Investment Partners</title>
 <meta name="description" content="An eight-dimension scorecard of investment governance maturity for AFSL holders and advice licensees, benchmarked against institutional-grade practice." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -182,8 +182,8 @@
 
 <div class="topbar">
   <div class="wrap">
-    <img class="mark" src="/logo/delta-triangle.png" alt="Delta Investment Partners" />
-    <div class="brand">Delta Investment Partners <span>· Governance Scorecard</span></div>
+    <img class="mark" src="/logo/BNV-triangle.png" alt="BNV Investment Partners" />
+    <div class="brand">BNV Investment Partners <span>· Governance Scorecard</span></div>
   </div>
 </div>
 
@@ -191,11 +191,11 @@
 
 <div class="footer">
   <div class="wrap">
-    <div>Delta Investment Partners — Institutional rigour. Boutique service.</div>
+    <div>BNV Investment Partners — Institutional rigour. Boutique service.</div>
     <div>This scorecard is a self-assessment and provides general information only, not personal advice. For wholesale clients.</div>
-    <div>Delta Investment Partners Pty Ltd (ABN 39 697 900 477) (Delta) is a Corporate Authorised Representative (CAR No. 001322527) of Sandford Capital Pty Limited (ABN 82 600 590 887) (AFSL 461981).</div>
-    <div>The information in this website (the Information) has been prepared by Delta.</div>
-    <div>This information is for general information only and is not an offer for the purchase or sale of any financial product or services. The Information has been prepared for investors who qualify as wholesale clients under section 761G of the Corporations Act 2001 (Cth) (Corporations Act) or to any other person who is not required to be given a regulated disclosure document under the Corporations Act. The Information is not intended to provide you with financial or tax advice and does not take into account your objectives, financial situation or needs. Although we believe that the Information is correct, no warranty of accuracy, reliability or completeness is given, except for liability under statute which cannot be excluded. Please note that past performance may not be indicative of future performance and that no guarantee of performance, the return of capital or a particular rate of return is given the Licensee, Delta or any other person. To the maximum extent possible, the Licensee, Delta or any other person do not accept any liability for any statement in this Information.</div>
+    <div>Delta Investment Partners Pty Ltd (ABN 39 697 900 477) trading as BNV Investment Partners (BNV) is a Corporate Authorised Representative (CAR No. 001322527) of Sandford Capital Pty Limited (ABN 82 600 590 887) (AFSL 461981).</div>
+    <div>The information in this website (the Information) has been prepared by BNV.</div>
+    <div>This information is for general information only and is not an offer for the purchase or sale of any financial product or services. The Information has been prepared for investors who qualify as wholesale clients under section 761G of the Corporations Act 2001 (Cth) (Corporations Act) or to any other person who is not required to be given a regulated disclosure document under the Corporations Act. The Information is not intended to provide you with financial or tax advice and does not take into account your objectives, financial situation or needs. Although we believe that the Information is correct, no warranty of accuracy, reliability or completeness is given, except for liability under statute which cannot be excluded. Please note that past performance may not be indicative of future performance and that no guarantee of performance, the return of capital or a particular rate of return is given the Licensee, BNV or any other person. To the maximum extent possible, the Licensee, BNV or any other person do not accept any liability for any statement in this Information.</div>
   </div>
 </div>
 
@@ -226,7 +226,7 @@ const BAND_COLOR={foundational:"var(--band-foundational)",developing:"var(--band
 
 /* =====================================================================
    INSTRUMENT v2 — 8 dimensions, 17 probes
-   Grounded in the Delta AFSL Investment Governance Framework v1.3
+   Grounded in the BNV AFSL Investment Governance Framework v1.3
    ===================================================================== */
 const DIMENSIONS=[
  {id:"d1", n:1, title:"Governance architecture & beliefs",
@@ -569,7 +569,7 @@ function renderResult(){
           <select id="f_type">${ORG_TYPES.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join("")}</select>
         </div>
         <label class="consent"><input type="checkbox" id="f_consent"/>
-          <span>I agree that Delta Investment Partners may use these details to send my result and contact me about it, and may use my responses in de-identified, aggregated form to benchmark investment governance across the industry.</span></label>
+          <span>I agree that BNV Investment Partners may use these details to send my result and contact me about it, and may use my responses in de-identified, aggregated form to benchmark investment governance across the industry.</span></label>
         ${CONFIG.TURNSTILE_SITE_KEY?`<div class="cf-turnstile"></div>`:""}
         <div class="gate-error" id="gateErr"></div>
         <button class="btn btn-primary" id="unlock">Unlock my full result <span class="arrow">&rarr;</span></button>
@@ -625,14 +625,14 @@ function renderResult(){
       ${gapList}
       ${remedy}
       <div class="helps">
-        <p><strong>How Delta helps.</strong> Delta works with licensees and boards to close exactly these gaps — establishing governance frameworks and investment beliefs, building independent challenge into how decisions are made, and serving on investment committees as the independent member.</p>
+        <p><strong>How BNV helps.</strong> BNV works with licensees and boards to close exactly these gaps — establishing governance frameworks and investment beliefs, building independent challenge into how decisions are made, and serving on investment committees as the independent member.</p>
         <p>We do not manage money and we do not distribute product. We have nothing that could appear on your APL, and we are not paid by anyone whose products you assess. That is deliberate — and it is what allows us to meet all three conditions of an effective challenge function at once: independence of interest, the authority to require an answer, and the competence to assess the substance.</p>
         <p class="sig">Institutional rigour. Boutique service.</p>
       </div>
       <div class="cta">
         <div class="eyebrow">Want us to pressure-test this properly?</div>
         <h3>Turn a self-assessment into an independent view.</h3>
-        <p>This is a self-assessment — which is precisely what a challenge function exists to correct. A short conversation with Delta shows where your governance genuinely stands, and the two or three changes that would matter most.</p>
+        <p>This is a self-assessment — which is precisely what a challenge function exists to correct. A short conversation with BNV shows where your governance genuinely stands, and the two or three changes that would matter most.</p>
         <a class="btn btn-on-navy" href="${CONFIG.START_CONVERSATION_URL}">Start a conversation <span class="arrow">&rarr;</span></a>
       </div>
     </div></div>`;
